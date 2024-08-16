@@ -18,5 +18,16 @@ routes.post('/indeed', async (req, res) => {
 });
 
 
+routes.get('/getData', async (req, res) => {
+    try{
+        const jobs = path.join(__dirname, '..', 'jobs.json');
+        return res.status(200).sendFile(jobsfd);
+
+    } catch(e) {
+        return res.status(500).send(e);
+    }
+})
+
+
 
 module.exports = routes;

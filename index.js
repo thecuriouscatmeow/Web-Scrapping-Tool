@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const getRoutes = require('./routes/getRoutes');
+// const ngrok = require('ngrok');
 
 const PORT = 3001;
 
@@ -22,3 +23,13 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
+
+// (async function() {
+//     const url = await ngrok.connect({
+//         proto: 'http',
+//         addr: PORT,
+//         authtoken: ""
+//     });
+//     console.log(url);
+// })();
