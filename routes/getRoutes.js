@@ -1,33 +1,41 @@
 const express = require('express');
-const routes = express.Router();
-const main = require('../scrapeFn/scrape');
+const router = express.Router();
+//import puppeteer function
+const main = require('../scrape-function/scrape')
 
 
-routes.post('/indeed', async (req, res) => {
-    try {
-        const { skill } = req.body;
-        let scrap = await main(skill);
-        return res.status(200).json({
-            status: "ok",
-            list: scrap?.list || {}
-        })
+const path = require('path');
 
-    } catch(e) {
-        return res.status(500).send(e);
-    }
-});
+//sending homepage
+router.get('/',async(req,res)=>{
+  const htmlPath =path.join(__dirname,'public','index.html');
+  res.sendFile(htmlPath);
+})
 
-
-routes.get('/getData', async (req, res) => {
-    try{
-        const jobs = path.join(__dirname, '..', 'jobs.json');
-        return res.status(200).sendFile(jobsfd);
-
-    } catch(e) {
-        return res.status(500).send(e);
-    }
+//scarping starts 
+router.post('/indeed',async(req,res)=>{
+  try {
+   let skill = req.body.skill;
+   let scrape =await main(skill);
+      return res.status(200).json({
+        status: "ok",
+        list: scrape.list,
+      });
+  } catch (error) {
+    console.log(error);
+  }
 })
 
 
+//router to getData
+router.get('/getData',async(req,res)=>{
+  try {
+    const jobs =path.join(__dirname,'..','jobs.json')
+    res.sendFile(jobs);
+  } catch (error) {
+    
+  }
+})
 
-module.exports = routes;
+
+module.exports = router;
